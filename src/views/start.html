@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startseite</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('/get-username')
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById("content");
+                    if (data.username) {
+                        container.innerHTML = `<h1>Willkommen, ${data.username}!</h1>
+                                              <a href='/content'>Zum Inhalt</a>
+                                              <form action='/logout' method='POST'>
+                                                  <button type='submit'>Logout</button>
+                                              </form>`;
+                    } else {
+                        container.innerHTML = `<h1>Willkommen</h1>
+                                              <a href='/login'>Login</a> | <a href='/signup'>Registrieren</a>`;
+                    }
+                })
+                .catch(error => console.error('Fehler:', error));
+        });
+    </script>
+</head>
+<body>
+    <div id="content">
+        <p>Lade...</p>
+    </div>
+</body>
+</html>
